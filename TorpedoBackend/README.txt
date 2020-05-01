@@ -11,7 +11,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
     -Move directory:
-cd TorpedoBackend/flask/app/AGENT
+cd TorpedoBackend/Agent
 
     -Run test
 python3 graph.py
