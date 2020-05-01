@@ -1,11 +1,17 @@
-CD into TorpedoBackend
+From directory 'TorpedoBackend' :
 
-Install python virtual environment:
+    -Install python virtual environment:
 python3 -m venv venv
 
-activate environment:
+    -Activate Python environment:
 source venv/bin/activate
 
-run pip to install requirements.txt:
 
+    -Install requirements(Needs cleaning):
 pip install -r requirements.txt
+
+    -Move directory:
+cd TorpedoBackend/flask/app/AGENT
+
+    -Run test
+python3 graph.py
