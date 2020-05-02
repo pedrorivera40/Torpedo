@@ -179,8 +179,8 @@ class GraphInput:
                                         temp = []
   
                             # printing result 
-                            #print('edge #'+str(j))
-                            #print("\tDestination: "+str(res[0][0])+"\n\tDistance: "+str(res[0][1])+"\n\tMax Speed: "+str(res[0][2])+"\n\tTraffic Delay: "+str(res[0][3]))
+                            print('edge #'+str(j))
+                            print("\tDestination: "+str(res[0][0])+"\n\tDistance: "+str(res[0][1])+"\n\tMax Speed: "+str(res[0][2])+"\n\tTraffic Delay: "+str(res[0][3]))
                             #store cell information 
                             destination =None
                             distance=float(res[0][1])
@@ -188,7 +188,7 @@ class GraphInput:
                             traffic_delay=float(res[0][3])
                             #reference node from listOfNodes
                             for node in listOfNodes:
-                                print(node.city+" is being compared with "+str(res[0][0]))
+                                #print(node.city+" is being compared with "+str(res[0][0]))
                                 if node.city == str(res[0][0]):
                                     destination = node
                             #no Node was found , could be an error in the Excel file
