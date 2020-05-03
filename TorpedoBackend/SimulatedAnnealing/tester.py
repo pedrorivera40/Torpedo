@@ -16,13 +16,13 @@ problem = Problem(start_node, goal_node)
 
 # We select a Temperature cooling schedule.
 
-linear_schedule = Schedules(100, 1).get_linear_schedule()
+linear_schedule = Schedules(50, .00005).get_linear_schedule()
 
-kirkpatrick_shedule = Schedules(100, 0.0005).get_kirkpatrick_schedule()
+kirkpatrick_schedule = Schedules(10, 0.00005).get_kirkpatrick_schedule()
 
 # We initialize simulated annealing.
 
-simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_shedule)
+simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
 
 # Start.
 simulated_annealing.start()

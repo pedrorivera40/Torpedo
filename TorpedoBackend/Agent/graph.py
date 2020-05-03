@@ -2,7 +2,6 @@
 import xlrd 
 
 
-
 class Node:
     """
     Node class
@@ -65,8 +64,7 @@ class Node:
         :type heuristic_value: Node
         """
         return self.previous
-   
-   
+
      
 class Edge:
     """
@@ -129,12 +127,6 @@ class Edge:
         """
         return self.traffic_delay
 
-   
-    
-   
-
-
-
 
 class GraphInput:
     """
@@ -142,7 +134,7 @@ class GraphInput:
     """
     
     def sheetImport(self,path):
-        listOfNodes = []
+        list_of_nodes = []
         """
         Import graph data through an xlsx or xls file named "Graph.xlsx" or "Graph.xls" in the folder named 'AGENT'
         """
@@ -155,9 +147,9 @@ class GraphInput:
         for i in range(sheet.nrows):
             city_name = str(sheet.cell_value(i, 0))
             city_heuristic_value = float(sheet.cell_value(i, 1))
-            listOfNodes.append(Node(previous=None,city=city_name, edges=None, heuristic_value=city_heuristic_value))
+            list_of_nodes.append(Node(previous=None,city=city_name, edges=None, heuristic_value=city_heuristic_value))
         
-        #for node in listOfNodes:
+        #for node in list_of_nodes:
             #print("Creating node list, adding: "+ str(node.city))
         #After making the list of nodes, we create the edge list for each Node :
         #traverse the first column
@@ -189,8 +181,8 @@ class GraphInput:
                             distance=float(res[0][1])
                             speed_limit=int(res[0][2])
                             traffic_delay=float(res[0][3])
-                            #reference node from listOfNodes
-                            for node in listOfNodes:
+                            #reference node from list_of_nodes
+                            for node in list_of_nodes:
                                 #print(node.city+" is being compared with "+str(res[0][0]))
                                 if node.city == str(res[0][0]):
                                     destination = node
@@ -198,7 +190,7 @@ class GraphInput:
                             #no Node was found , could be an error in the Excel file
                             if destination is not None:
                                 nodeEdges.append(Edge(destination=destination,distance=distance,speed_limit=speed_limit,traffic_delay=traffic_delay) )
-                                listOfNodes[i].edges = nodeEdges
+                                list_of_nodes[i].edges = nodeEdges
                             else:
                                 return print("Node not found "+str(res[0][0]))
                        
@@ -210,9 +202,8 @@ class GraphInput:
                 else:
                     break
                 
-       # print( listOfNodes)
-        return listOfNodes 
+       # print( list_of_nodes)
+        return list_of_nodes
         
         
 #nodes = GraphInput().sheetImport("Graph.xlsx")
-        
