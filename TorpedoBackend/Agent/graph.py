@@ -135,13 +135,14 @@ class Edge:
 
 
 
-listOfNodes = []
+
 class GraphInput:
     """
     Graph Input class, with methods for inputing graph data to our agent
     """
     
     def sheetImport(self,path):
+        listOfNodes = []
         """
         Import graph data through an xlsx or xls file named "Graph.xlsx" or "Graph.xls" in the folder named 'AGENT'
         """
@@ -151,7 +152,7 @@ class GraphInput:
         
         #traverse the first column to store all the nodes, with their city name.
         #TODO: We need to calculate the heuristic_value 
-        for i in range(sheet.nrows): 
+        for i in range(sheet.nrows):
            listOfNodes.append(Node(previous=None,city=str(sheet.cell_value(i, 0)) , edges=None, heuristic_value= 1 ))
         
         for node in listOfNodes:
@@ -191,10 +192,11 @@ class GraphInput:
                                 #print(node.city+" is being compared with "+str(res[0][0]))
                                 if node.city == str(res[0][0]):
                                     destination = node
+                                    break
                             #no Node was found , could be an error in the Excel file
                             if destination is not None:
                                 nodeEdges.append(Edge(destination=destination,distance=distance,speed_limit=speed_limit,traffic_delay=traffic_delay) )
-                            
+                                listOfNodes[i].edges = nodeEdges
                             else:
                                 return print("Node not found "+str(res[0][0]))
                        
@@ -203,14 +205,12 @@ class GraphInput:
                             #cell contains a node, we ignore this cell 
                             print("\nNode:\t"+cell)
                             print("\nEdges: ")
-                
                 else:
-                    #At the end of the list we assign the edge list to the Node in the row being traversed
-                    listOfNodes[i].edges=nodeEdges
+                    break
                 
        # print( listOfNodes)
         return listOfNodes 
         
         
-nodes = GraphInput().sheetImport("Graph.xlsx")
+#nodes = GraphInput().sheetImport("Graph.xlsx")
         
