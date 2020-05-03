@@ -1,32 +1,12 @@
 from graph import Node
 
 
-def getStart(self):
-    """
-    Private method to return start Node
-    
-    :param self:
-    :returns start:
-    :type start: Node
-    """
-    return self.start
-
-def getGoal(self):
-    """
-    Private method to return goal Node
-    
-    :param self:
-    :returns goal:
-    :type goal: Node
-    """
-    return self.goal
-
     
 class Problem:
     """
     Problem class
     """
-    def Problem(self,start,goal):
+    def __init__(self,start,goal):
         """
         Problem constructor
     
@@ -35,4 +15,24 @@ class Problem:
         """
         self.start = start
         self.goal = goal 
-        return self
+        
+    
+    def get_start(self):
+        """
+        Private method to return start Node
+    
+        :param self:
+        :returns start:
+        :type start: Node
+        """
+        return self.start
+
+    def get_goal(self):
+        """
+        Private method to return goal Node
+    
+        :param self:
+        :returns goal:
+        :type goal: Node
+        """
+        return self.goal
