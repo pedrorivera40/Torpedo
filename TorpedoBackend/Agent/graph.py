@@ -153,16 +153,18 @@ class GraphInput:
         #traverse the first column to store all the nodes, with their city name.
         #TODO: We need to calculate the heuristic_value 
         for i in range(sheet.nrows):
-           listOfNodes.append(Node(previous=None,city=str(sheet.cell_value(i, 0)) , edges=None, heuristic_value= 1 ))
+            city_name = str(sheet.cell_value(i, 0))
+            city_heuristic_value = float(sheet.cell_value(i, 1))
+            listOfNodes.append(Node(previous=None,city=city_name, edges=None, heuristic_value=city_heuristic_value))
         
-        for node in listOfNodes:
-            print("Creating node list, adding: "+ str(node.city))
+        #for node in listOfNodes:
+            #print("Creating node list, adding: "+ str(node.city))
         #After making the list of nodes, we create the edge list for each Node :
         #traverse the first column
         for i in range(sheet.nrows): 
             nodeEdges = [] 
             #go through each row 
-            for j in range(sheet.ncols):
+            for j in range(2, sheet.ncols):
                 #Check each cell
                 cell = sheet.cell_value(i, j)
                 #Check if cell is empty, this means the end of a edge list
@@ -180,8 +182,8 @@ class GraphInput:
                                         temp = []
   
                             # printing result 
-                            print('edge #'+str(j))
-                            print("\tDestination: "+str(res[0][0])+"\n\tDistance: "+str(res[0][1])+"\n\tMax Speed: "+str(res[0][2])+"\n\tTraffic Delay: "+str(res[0][3]))
+                            #print('edge #'+str(j))
+                            #print("\tDestination: "+str(res[0][0])+"\n\tDistance: "+str(res[0][1])+"\n\tMax Speed: "+str(res[0][2])+"\n\tTraffic Delay: "+str(res[0][3]))
                             #store cell information 
                             destination =None
                             distance=float(res[0][1])
@@ -201,10 +203,10 @@ class GraphInput:
                                 return print("Node not found "+str(res[0][0]))
                        
                            
-                        else:
+                        #else:
                             #cell contains a node, we ignore this cell 
-                            print("\nNode:\t"+cell)
-                            print("\nEdges: ")
+                            #print("\nNode:\t"+cell)
+                            #print("\nEdges: ")
                 else:
                     break
                 
