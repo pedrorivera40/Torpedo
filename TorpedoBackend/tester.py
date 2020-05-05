@@ -1,11 +1,11 @@
 import xlrd
-from TorpedoBackend.Agent.graph import GraphInput
-from TorpedoBackend.Agent.problem import Problem
-from TorpedoBackend.SimulatedAnnealing.schedules import Schedules
-from TorpedoBackend.SimulatedAnnealing.simulated_annealing import SimulatedAnnealing
+from Agent.graph import GraphInput
+from Agent.problem import Problem
+from SimulatedAnnealing.schedules import Schedules
+from SimulatedAnnealing.simulated_annealing import SimulatedAnnealing
 
 # First we find the start/goal nodes.
-nodes = GraphInput().sheetImport("../Agent/Graph.xlsx")
+nodes = GraphInput().sheetImport("Agent/Graph.xlsx")
 
 start_node = nodes[00]  # Arad
 goal_node = nodes[12]  # Bucharest
@@ -26,6 +26,3 @@ simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
 
 # Start.
 simulated_annealing.start()
-
-
-
