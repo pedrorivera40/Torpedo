@@ -1,26 +1,26 @@
 class Schedules:
 
-    t_initial = None  # Initial Temperature
-    t_final = None  # Final Temperature
+    temp_initial = None  # Initial Temperature
+    temp_final = None  # Final Temperature
 
-    def __init__(self, t_initial, t_final):
-        self.t_initial = t_initial
-        self.t_final = t_final
+    def __init__(self, temp_initial, temp_final):
+        self.temp_initial = temp_initial
+        self.temp_final = temp_final
 
     # Notice that in Kirkpatrick's cooling scheme the temperature will always approach zero but will NEVER
     # reach it.
-    def get_kirkpatrick_schedule(self):
+    def get_kirkpatrick_schedule(self, alpha=0.95):
         schedule = []
-        curr = self.t_initial
-        while curr >= self.t_final:
+        curr = self.temp_initial
+        while curr >= self.temp_final:
             schedule.append(curr)
-            curr = 0.95 * curr
+            curr = alpha * curr
         return schedule
 
     def get_linear_schedule(self, rate=1):
         schedule = []
-        curr = self.t_initial
-        while curr >= self.t_final:
+        curr = self.temp_initial
+        while curr >= self.temp_final:
             schedule.append(curr)
             curr -= rate
         return schedule
