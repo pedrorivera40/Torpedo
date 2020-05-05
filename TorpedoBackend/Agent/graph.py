@@ -128,7 +128,7 @@ class Edge:
         :returns destination:
         :type destination: Node
         """
-        return self
+        return self.destination
 
     def get_distance(self):
         """

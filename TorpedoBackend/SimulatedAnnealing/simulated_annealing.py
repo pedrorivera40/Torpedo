@@ -25,22 +25,22 @@ class SimulatedAnnealing:
                 break
 
             # Pick a random neighbor and calculate the energy diff
-            self.next = random.choice(self.curr.get_edges()).destination
-            delta_e = self.curr.heuristic_value - self.next.heuristic_value
+            self.next = random.choice(self.curr.get_edges()).get_destination()
+            delta_e = self.curr.get_heuristic_value() - self.next.get_heuristic_value()
 
             # If the energy diff is positive, update the current node as the randomly chosen neighbor.
             # Otherwise, update the the current node as the randomly chosen neighbor with a probability.
             if delta_e > 0:
-                if self.next is not self.curr.previous:
-                    self.next.previous = self.curr
+                if self.next is not self.curr.get_previous():
+                    self.next.set_previous(self.curr)
                 self.curr = self.next
                 nodes_visited.append(self.curr.city)
             else:
                 prob = exp(delta_e / self.schedule[i])  # Probability of updating the current node.
                 if random.uniform(0, 1) <= prob:
                     self.bad_choices += 1
-                    if self.next is not self.curr.previous:
-                        self.next.previous = self.curr
+                    if self.next is not self.curr.get_previous():
+                        self.next.set_previous(self.curr)
                     self.curr = self.next
                     nodes_visited.append(self.curr.city)
 
@@ -48,13 +48,14 @@ class SimulatedAnnealing:
 
         # Starting from the current node, traverse to through the parent of each node until reaching the start node
         # to find the route
-        route = [self.curr.city]
-        while self.curr.city is not self.problem.start.city:
+        route = [self.curr.get_city()]
+        while self.curr.get_city() is not self.problem.start.get_city():
             self.curr = self.curr.get_previous()
-            route.insert(0, self.curr.city)  # Prepend to list since we started from the current node
+            route.insert(0, self.curr.get_city())  # Prepend to list since we started from the current node
 
         # Print algorithm analysis
         print('Execution time: %s' % (time_end - time_start, ))
+        print('Number of bad choices: %s' % (self.bad_choices, ))
         print('Nodes visited: %s' % (nodes_visited, ))
         print('Route: %s' % (route, ))
 
