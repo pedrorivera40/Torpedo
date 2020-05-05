@@ -1,5 +1,6 @@
 # Reading an excel file using Python
 import xlrd
+import math
 
 
 class Node:
@@ -13,15 +14,13 @@ class Node:
 
         :param city: 
         :type city: String
-        :param traveled_time:
-        :type traveled_time: Float
         :param edges:
         :type edges: List<Edge>
         :param heuristic_value:
         :type heuristic_value: Float
         """
         self.previous = None
-        self.traveled_time = 0
+        self.time_from_start = math.inf
         self.city = city
         self.edges = edges
         self.heuristic_value = heuristic_value
@@ -77,26 +76,26 @@ class Node:
         """
         self.previous = previous
 
-    def get_traveled_time(self):
+    def get_time_from_start(self):
         """
-        Private method to return traveled_time value
+        Private method to return time_from_start value
 
         :param self:
-        :returns traveled_time:
-        :type traveled_time: Float
+        :returns time_from_start:
+        :type time_from_start: Float
         """
-        return self.traveled_time
+        return self.time_from_start
 
-    def set_traveled_time(self, traveled_time):
+    def set_time_from_start(self, time_from_start):
         """
         Private method to setting traveled_time value
 
         :param self:
-        :param traveled_time:
-        :type traveled_time: Float
+        :param time_from_start:
+        :type time_from_start: Float
         :returns void:
         """
-        self.traveled_time = traveled_time
+        self.time_from_start = time_from_start
 
 
 class Edge:
