@@ -55,6 +55,7 @@ class SimulatedAnnealing:
 
         # Print algorithm analysis
         print('Execution time: %s' % (time_end - time_start, ))
+        print('Number of bad choices: %s' % (self.bad_choices, ))
         print('Nodes visited: %s' % (nodes_visited, ))
         print('Route: %s' % (route, ))
 
