@@ -1,6 +1,3 @@
-from graph import Node
-
-
 class Problem:
     """
     Problem class
