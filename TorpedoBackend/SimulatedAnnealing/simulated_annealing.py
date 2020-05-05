@@ -14,30 +14,49 @@ class SimulatedAnnealing:
         self.curr = problem.start
 
     def start(self):
-        time_start = time.time()
-        path = [self.curr.city]
-        path_no_repetition = [self.curr.city]
+
+        time_start = time.time()  # Start counting time
+        nodes_visited = [self.curr.city]
+
         for i in range(len(self.schedule)):
+
+            # Escape for-loop if we reach the end of the cooling scheme.
             if i == len(self.schedule):
-                return self.curr
+                break
+
+            # Pick a random neighbor and calculate the energy diff
             self.next = random.choice(self.curr.get_edges()).destination
             delta_e = self.curr.heuristic_value - self.next.heuristic_value
+
+            # If the energy diff is positive, update the current node as the randomly chosen neighbor.
+            # Otherwise, update the the current node as the randomly chosen neighbor with a probability.
             if delta_e > 0:
+                if self.next is not self.curr.previous:
+                    self.next.previous = self.curr
                 self.curr = self.next
-                path.append(self.curr.city)
-                if self.curr.city not in path_no_repetition:
-                    path_no_repetition.append(self.curr.city)
+                nodes_visited.append(self.curr.city)
             else:
-                prob = exp(delta_e / self.schedule[i])
+                prob = exp(delta_e / self.schedule[i])  # Probability of updating the current node.
                 if random.uniform(0, 1) <= prob:
                     self.bad_choices += 1
+                    if self.next is not self.curr.previous:
+                        self.next.previous = self.curr
                     self.curr = self.next
-                    path.append(self.curr.city)
-                    if self.curr.city not in path_no_repetition:
-                        path_no_repetition.append(self.curr.city)
-        time_end = time.time()
-        print('Time elapsed: %s' % (time_end-time_start, ))
-        print('Number of bad choices: %s' % (self.bad_choices,))
-        print('Nodes visited: %s' % (path, ))
-        print('Nodes visited (no repetition): %s: ' % (path_no_repetition, ))
+                    nodes_visited.append(self.curr.city)
+
+        time_end = time.time()  # Stop counting time
+
+        # Starting from the current node, traverse to through the parent of each node until reaching the start node
+        # to find the route
+        route = [self.curr.city]
+        while self.curr.city is not self.problem.start.city:
+            self.curr = self.curr.get_previous()
+            route.insert(0, self.curr.city)  # Prepend to list since we started from the current node
+
+        # Print algorithm analysis
+        print('Execution time: %s' % (time_end - time_start, ))
+        print('Nodes visited: %s' % (nodes_visited, ))
+        print('Route: %s' % (route, ))
+
+        return time_end - time_start  # Return execution time
 
