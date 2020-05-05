@@ -18,6 +18,9 @@ class AStar:
     @author Pedro Luis Rivera Gómez
     """
 
+    # This search(problem) implementation is based in the following
+    # pseudocode for the A* algorithm:
+    # http://mat.uab.cat/~alseda/MasterOpt/AStar-Algorithm
     def search(self, problem):
         """
         :param self: 
