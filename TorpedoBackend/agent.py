@@ -12,7 +12,7 @@ class Agent:
     def build_graph(self,list_of_nodes,problem):
         """
         """
-        9print(str (GraphRead().heuristicCalculation(route =sa_results['route'],list_of_nodes=list_of_nodes )))
+        print(str (GraphRead().heuristicCalculation(route =sa_results['route'],list_of_nodes=list_of_nodes )))
 
         
     def build_solution_path(self,problem):
