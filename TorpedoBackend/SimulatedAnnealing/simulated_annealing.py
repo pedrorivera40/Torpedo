@@ -21,7 +21,7 @@ class SimulatedAnnealing:
         for i in range(len(self.schedule)):
 
             # Escape for-loop if we reach the end of the cooling scheme.
-            if i == len(self.schedule):
+            if i == len(self.schedule) or self.curr.get_city() == self.problem.get_goal().get_city():
                 break
 
             # Pick a random neighbor and calculate the energy diff
@@ -54,10 +54,10 @@ class SimulatedAnnealing:
             route.insert(0, self.curr.get_city())  # Prepend to list since we started from the current node
 
         # Print algorithm analysis
-        print('Execution time: %s' % (time_end - time_start, ))
-        print('Number of bad choices: %s' % (self.bad_choices, ))
-        print('Nodes visited: %s' % (nodes_visited, ))
-        print('Route: %s' % (route, ))
-
-        return time_end - time_start  # Return execution time
+        # print('Execution time: %s' % (time_end - time_start, ))
+        # print('Number of bad choices: %s' % (self.bad_choices, ))
+        # print('Nodes visited: %s' % (nodes_visited, ))
+        # print('Route: %s' % (route, ))
+        response ={"time":(time_end - time_start),"bad_choices":self.bad_choices,"nodes_visited":nodes_visited,"route":route}
+        return response  # Return performance parameters
 

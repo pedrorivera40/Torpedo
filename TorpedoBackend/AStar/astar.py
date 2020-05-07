@@ -1,6 +1,6 @@
 import math
 from Agent.graph import Node, Edge
-from time import time
+import time
 
 
 class AStar:
@@ -30,7 +30,7 @@ class AStar:
         """
 
         # Take the start time for search execution.
-        start_time = time()
+        start_time = time.time()
 
         start_node = problem.start
         start_node.set_time_from_start(0)
@@ -92,4 +92,4 @@ class AStar:
             closed_list.append(current)
 
         # Return execution time.
-        return time() - start_time
+        return time.time() - start_time

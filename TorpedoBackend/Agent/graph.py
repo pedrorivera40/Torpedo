@@ -165,7 +165,6 @@ class GraphInput:
     """
     Graph Input class, with methods for inputing graph data to our agent
     """
-
     def sheetImport(self, path):
         list_of_nodes = []
         """
@@ -176,7 +175,6 @@ class GraphInput:
         sheet = wb.sheet_by_index(0)
 
         # traverse the first column to store all the nodes, with their city name.
-        # TODO: We need to calculate the heuristic_value
         for i in range(sheet.nrows):
             city_name = str(sheet.cell_value(i, 0))
             city_heuristic_value = float(sheet.cell_value(i, 1))
@@ -228,3 +226,87 @@ class GraphInput:
                     break
 
         return list_of_nodes
+
+
+
+class GraphRead:
+    """
+    """
+    def distanceBetween(self,start_node,end_node,list_of_nodes):
+        """
+        Given a list of nodes, a start node and an end node, gives back the distance travelled 
+        Nodes must be adjacent 
+        """
+     
+        for node in list_of_nodes:
+            #print(str(node.get_city()))
+            if node.get_city() == start_node:
+                edges =node.get_edges()
+                for edge in edges:
+                    if str(edge.get_destination().get_city()) == str(end_node):
+                        return edge.get_distance()
+                    #print("Not match "+node.get_city())
+                    #print(edge.get_destination().get_city())
+                print("Current "+str(node.get_city())+" Destination "+str(end_node))
+                
+                return 'Error'
+        
+        
+    def speed_limit(self,start_node,end_node,list_of_nodes):
+        """
+        Given a list of nodes, a start node and an end node, gives back the distance travelled 
+        Nodes must be adjacent 
+        """
+     
+        for node in list_of_nodes:
+            #print(str(node.get_city()))
+            if node.get_city() == start_node:
+                edges =node.get_edges()
+                for edge in edges:
+                    if str(edge.get_destination().get_city()) == str(end_node):
+                        return edge.get_speed_limit()
+                    #print("Not match "+node.get_city())
+                    #print(edge.get_destination().get_city())
+                print("Current "+str(node.get_city())+" Destination "+str(end_node))
+                
+                return 'Error'
+    
+    def traffic_delay(self,start_node,end_node,list_of_nodes):
+        """
+        Given a list of nodes, a start node and an end node, gives back the distance travelled 
+        Nodes must be adjacent 
+        """
+     
+        for node in list_of_nodes:
+            #print(str(node.get_city()))
+            if node.get_city() == start_node:
+                edges =node.get_edges()
+                for edge in edges:
+                    if str(edge.get_destination().get_city()) == str(end_node):
+                        return edge.get_speed_limit()
+                    #print("Not match "+node.get_city())
+                    #print(edge.get_destination().get_city())
+                print("Current "+str(node.get_city())+" Destination "+str(end_node))
+                
+                return 'Error'
+            
+                
+    def heuristicCalculation(self,route,list_of_nodes):
+        """
+        """
+        print("Calculating route length for route: "+str(route))
+        distance = 0.00
+        ave_velocity = 0
+        speed_limits= 0
+        traffic_delay=0.0
+        for i in range(0,(len(route)-1)): 
+                distance+=(self.distanceBetween(start_node = route [i],end_node= route[i+1],list_of_nodes=list_of_nodes))
+                speed_limits +=(self.speed_limit(start_node = route [i],end_node= route[i+1],list_of_nodes=list_of_nodes))
+                traffic_delay +=(self.traffic_delay(start_node = route [i],end_node= route[i+1],list_of_nodes=list_of_nodes))
+        ave_velocity = (speed_limits/(len(route) -1)   )
+        print(" \ndistance: "+str(distance)+" \nave_speed_limit: "+str(ave_velocity)+"\ntraffic_delay: "+str(traffic_delay))
+        heuristic_value = (distance/ave_velocity)+traffic_delay
+        
+        print("\nHEURISTIC VALUE CALCULATED: "+str(heuristic_value))
+        return distance
+    
