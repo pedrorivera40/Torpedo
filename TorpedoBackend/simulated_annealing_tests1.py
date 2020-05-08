@@ -32,4 +32,8 @@ kirkpatrick_schedule = Schedules(10, 0.00005).get_kirkpatrick_schedule()
 simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
 
 # Start.
-simulated_annealing.start()
+results = simulated_annealing.start()
+
+export = Export('simulated_annealing', ['Execution Time', 'Number of Nodes Visited', 'Number of Bad Choices', 'Route'])
+export.add_values([results['time'], len(results['nodes_visited']), results['bad_choices'], results['route']])
+export.save()
