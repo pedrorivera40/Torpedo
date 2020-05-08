@@ -3,6 +3,7 @@ from Agent.graph import GraphInput
 from Agent.problem import Problem
 from SimulatedAnnealing.schedules import Schedules
 from SimulatedAnnealing.simulated_annealing import SimulatedAnnealing
+from excel_export import ExcelExport
 
 # First we find the start/goal nodes.
 nodes = GraphInput().sheetImport("Agent/Graph.xlsx")
@@ -34,6 +35,6 @@ simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
 # Start.
 results = simulated_annealing.start()
 
-export = Export('simulated_annealing', ['Execution Time', 'Number of Nodes Visited', 'Number of Bad Choices', 'Route'])
+export = ExcelExport('simulated_annealing', ['Execution Time', 'Number of Nodes Visited', 'Number of Bad Choices', 'Route'])
 export.add_values([results['time'], len(results['nodes_visited']), results['bad_choices'], results['route']])
 export.save()

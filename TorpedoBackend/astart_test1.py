@@ -2,6 +2,7 @@ import xlrd
 from Agent.graph import GraphInput
 from Agent.problem import Problem
 from AStar.astar import AStar
+from excel_export import ExcelExport
 
 
 def build_solution_path(problem):
@@ -42,6 +43,6 @@ route = build_solution_path(problem)
 print("ELAPSED TIME FOR A*: ", elapsed_time)
 print("PATH CHOSEN BY A*: ", route)
 
-export = Export('a_star', ['Execution Time', 'Route'], 'test_results.xls')
+export = ExcelExport('a_star', ['Execution Time', 'Route'], 'test_results.xls')
 export.add_values([elapsed_time, route])
 export.save()
