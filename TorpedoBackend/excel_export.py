@@ -9,14 +9,12 @@ class ExcelExport:
     Use this class to help export data into an excel sheet.
     """
 
-    headers = []
-    curr_row = 1
-    sheet = None
+    curr_row = 1  # Row in which values are going to be written.
+    sheet = None  # The current Excel sheet.
 
     def __init__(self, workbook_path=None):
         """
-        Excel Export constructor. Leaving the workbook_path as None will create a new Excel file.
-        :param sheet: string
+        Excel Export constructor. Leaving the workbook_path as None will assume a new Excel file.
         :param workbook_path: string
         """
         if workbook_path is None:
