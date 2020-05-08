@@ -35,6 +35,8 @@ simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
 # Start.
 results = simulated_annealing.start()
 
-export = ExcelExport('simulated_annealing', ['Execution Time', 'Number of Nodes Visited', 'Number of Bad Choices', 'Route'])
-export.add_values([results['time'], len(results['nodes_visited']), results['bad_choices'], results['route']])
-export.save()
+excel_export = ExcelExport('test_results.xls')
+excel_export.add_sheet('simulated_annealing')
+excel_export.add_headers(['Execution Time', 'Number of Nodes Visited', 'Number of Bad Choices', 'Route'])
+excel_export.add_values([results['time'], len(results['nodes_visited']), results['bad_choices'], results['route']])
+excel_export.save()
