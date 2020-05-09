@@ -4,6 +4,7 @@ from Agent.problem import Problem
 from AStar.astar import AStar
 from SimulatedAnnealing.schedules import Schedules
 from SimulatedAnnealing.simulated_annealing import SimulatedAnnealing
+from excel_export import ExcelExport
 
 
 def build_solution_path(problem):
@@ -43,3 +44,9 @@ route = build_solution_path(problem)
 
 print("ELAPSED TIME FOR A*: ", elapsed_time)
 print("PATH CHOSEN BY A*: ", route)
+
+excel_export = ExcelExport('test_results.xls')
+excel_export.add_sheet('a_star')
+excel_export.add_headers(['Execution Time', 'Route'])
+excel_export.add_values([elapsed_time, route])
+excel_export.save()
