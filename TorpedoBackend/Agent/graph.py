@@ -173,7 +173,7 @@ class GraphInput:
         """
         # To open Workbook
         wb = xlrd.open_workbook(path)
-        sheet = wb.sheet_by_index(0)
+        sheet = wb.sheet_by_index(1)
 
         # traverse the first column to store all the nodes, with their city name.
         # TODO: We need to calculate the heuristic_value

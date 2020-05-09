@@ -29,8 +29,8 @@ for node in nodes:
     graph[node.get_city()] = node
 
 # Define start and end nodes for test.
-start_node = nodes[00]  # Arad
-goal_node = nodes[12]  # Bucharest
+start_node = nodes[0]  # Arad
+goal_node = nodes[8]  # Bucharest
 
 # Then we use those nodes to define the problem.
 problem = Problem(start_node, goal_node, graph)

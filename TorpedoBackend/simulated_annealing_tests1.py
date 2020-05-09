@@ -14,8 +14,8 @@ graph = {}
 for node in nodes:
     graph[node.get_city()] = node
 
-start_node = nodes[00]  # Arad
-goal_node = nodes[12]  # Bucharest
+start_node = nodes[0]  # Arad
+goal_node = nodes[8]  # Bucharest
 
 # Then we use those nodes to define the problem.
 
