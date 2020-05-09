@@ -24,6 +24,10 @@ class SimulatedAnnealing:
             if i == len(self.schedule) or self.curr.get_city() == self.problem.get_goal().get_city():
                 break
 
+            # OPTIONAL ENDING CONDITION TO BE DISCUSSED (NOT NEEDED)
+            # if self.curr.get_city() == self.problem.goal.get_city():
+            #     break
+
             # Pick a random neighbor and calculate the energy diff
             self.next = random.choice(self.curr.get_edges()).get_destination()
             delta_e = self.curr.get_heuristic_value() - self.next.get_heuristic_value()
@@ -36,7 +40,8 @@ class SimulatedAnnealing:
                 self.curr = self.next
                 nodes_visited.append(self.curr.city)
             else:
-                prob = exp(delta_e / self.schedule[i])  # Probability of updating the current node.
+                # Probability of updating the current node.
+                prob = exp(delta_e / self.schedule[i])
                 if random.uniform(0, 1) <= prob:
                     self.bad_choices += 1
                     if self.next is not self.curr.get_previous():
@@ -51,13 +56,14 @@ class SimulatedAnnealing:
         route = [self.curr.get_city()]
         while self.curr.get_city() is not self.problem.start.get_city():
             self.curr = self.curr.get_previous()
-            route.insert(0, self.curr.get_city())  # Prepend to list since we started from the current node
+            # Prepend to list since we started from the current node
+            route.insert(0, self.curr.get_city())
 
         # Print algorithm analysis
         # print('Execution time: %s' % (time_end - time_start, ))
         # print('Number of bad choices: %s' % (self.bad_choices, ))
         # print('Nodes visited: %s' % (nodes_visited, ))
         # print('Route: %s' % (route, ))
-        response ={"time":(time_end - time_start),"bad_choices":self.bad_choices,"nodes_visited":nodes_visited,"route":route}
+        response = {"time": (time_end - time_start), "bad_choices": self.bad_choices,
+                    "nodes_visited": nodes_visited, "route": route}
         return response  # Return performance parameters
-
