@@ -1,6 +1,8 @@
 # Reading an excel file using Python
 import xlrd
 import math
+import random
+from excel_export import ExcelExport
 
 
 class Node:
@@ -227,6 +229,46 @@ class GraphInput:
                     break
 
         return list_of_nodes
+
+    def createProblem(self, problems, route, list_of_nodes):
+        """
+        """
+        for j in range(1, problems):
+            distance = 0.00
+            ave_velocity = 0
+            speed_limits = 0
+            traffic_delay = 0.0
+            for i in range(0, (len(route)-1)):
+                distance += (GraphRead().distanceBetween(
+                    start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
+                speed_limits += (GraphRead().speed_limit(
+                    start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
+
+                if distance > 0:
+                    traffic_delay += (random.uniform(9, 15))
+                else:
+                    traffic_delay = 0
+            try:
+                ave_velocity = (speed_limits/(len(route) - 1))
+            except:
+                ave_velocity = 0
+
+            print(" \ndistance: "+str(distance)+" \nave_speed_limit: " +
+                  str(ave_velocity)+"\ntraffic_delay: "+str(traffic_delay))
+            try:
+                heuristic_value = (distance/ave_velocity)+traffic_delay
+            except:
+                heuristic_value = 0
+            print("\nHEURISTIC VALUE CALCULATED FOR " +
+                  str(route[0])+": "+str(heuristic_value))
+            excel_export = ExcelExport('problemGeneration.xls')
+            excel_export.add_sheet('1')
+            excel_export.add_sheet('2')
+            excel_export.select_sheet(str(j))
+            excel_export.add_values([route[0], heuristic_value])
+            excel_export.save()
+
+        return distance
 
 
 class GraphRead:
