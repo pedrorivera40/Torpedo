@@ -168,6 +168,70 @@ class GraphInput:
     Graph Input class, with methods for inputing graph data to our agent
     """
 
+    def mapImport(self, path):
+        list_of_nodes = []
+        """
+        Import graph data through an xlsx or xls file named "Graph.xlsx" or "Graph.xls" in the folder named 'AGENT'
+        """
+        # To open Workbook
+        wb = xlrd.open_workbook(path)
+        sheet = wb.sheet_by_index(0)
+
+        # traverse the first column to store all the nodes, with their city name.
+        for i in range(0, sheet.nrows):
+            city_name = str(sheet.cell_value(i, 0))
+            print(city_name)
+            #city_heuristic_value = float(sheet.cell_value(i, 1))
+            list_of_nodes.append(
+                Node(city=city_name, edges=None, heuristic_value=1))
+
+        # After making the list of nodes, we create the edge list for each Node :
+        # traverse the first column
+        for i in range(0, sheet.nrows):
+            nodeEdges = []
+            # go through each row
+            for j in range(2, sheet.ncols):
+                # Check each cell
+                cell = sheet.cell_value(i, j)
+                # Check if cell is empty, this means the end of a edge list
+                if cell is not "":
+                    # check if cell contains an edge
+                    if cell[0] == '(':
+                        # store the tuple information from the cell
+                        res = []
+                        temp = []
+                        for token in cell.split(", "):
+                            value = token.replace("(", "").replace(")", "")
+                            temp.append(value)
+                            if ")" in token:
+                                res.append(tuple(temp))
+                                temp = []
+
+                        # store cell information
+                        destination = None
+                       # print(str(res[0][0]))
+                        distance = float(res[0][1])
+                        speed_limit = int(res[0][2])
+                        traffic_delay = float(res[0][3])
+                        # reference node from list_of_nodes
+                        for node in list_of_nodes:
+
+                            if node.city == str(res[0][0]):
+                                destination = node
+                                break
+                        # no Node was found , could be an error in the Excel file
+                        if destination is not None:
+                            nodeEdges.append(Edge(destination=destination, distance=distance,
+                                                  speed_limit=speed_limit, traffic_delay=traffic_delay))
+                            list_of_nodes[i].edges = nodeEdges
+                        else:
+                            return print("Node not found "+str(res[0][0]))
+
+                else:
+                    break
+
+        return list_of_nodes
+
     def sheetImport(self, path):
         list_of_nodes = []
         """
@@ -233,7 +297,7 @@ class GraphInput:
     def createProblem(self, problems, route, list_of_nodes):
         """
         """
-        for j in range(1, problems):
+        for j in range(0, problems):
             distance = 0.00
             ave_velocity = 0
             speed_limits = 0
@@ -243,9 +307,8 @@ class GraphInput:
                     start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
                 speed_limits += (GraphRead().speed_limit(
                     start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
-
                 if distance > 0:
-                    traffic_delay += (random.uniform(9, 15))
+                    traffic_delay += (random.uniform(0.00, 0.50))
                 else:
                     traffic_delay = 0
             try:
@@ -256,23 +319,28 @@ class GraphInput:
             print(" \ndistance: "+str(distance)+" \nave_speed_limit: " +
                   str(ave_velocity)+"\ntraffic_delay: "+str(traffic_delay))
             try:
-                heuristic_value = (distance/ave_velocity)+traffic_delay
+                print("Generating problems ")
+                heuristic_value = (distance/ave_velocity)
+                excel_export = ExcelExport('PR_MAP.xls')
+                excel_export.select_sheet(str(j))
+                excel_export.add_values(
+                    [route[0], heuristic_value])
+                excel_export.save()
+
             except:
                 heuristic_value = 0
-            print("\nHEURISTIC VALUE CALCULATED FOR " +
-                  str(route[0])+": "+str(heuristic_value))
-            excel_export = ExcelExport('problemGeneration.xls')
-            excel_export.add_sheet('1')
-            excel_export.add_sheet('2')
-            excel_export.select_sheet(str(j))
-            excel_export.add_values([route[0], heuristic_value])
-            excel_export.save()
+                print("\nHEURISTIC VALUE CALCULATED FOR " +
+                      str(route[0])+": "+str(heuristic_value))
 
-        return distance
+                excel_export = ExcelExport('PR_MAP.xls')
+                excel_export.select_sheet(str(j))
+                excel_export.add_values([route[0], heuristic_value])
+                excel_export.save()
+        return None
 
 
 class GraphRead:
-    """
+    """ 
     """
 
     def distanceBetween(self, start_node, end_node, list_of_nodes):
@@ -358,9 +426,9 @@ class GraphRead:
         print(" \ndistance: "+str(distance)+" \nave_speed_limit: " +
               str(ave_velocity)+"\ntraffic_delay: "+str(traffic_delay))
         try:
-            heuristic_value = (distance/ave_velocity)+traffic_delay
+            heuristic_value = (distance/ave_velocity)
         except:
             heuristic_value = 0
         print("\nHEURISTIC VALUE CALCULATED FOR " +
               str(route[0])+": "+str(heuristic_value))
-        return distance
+        return heuristic_value

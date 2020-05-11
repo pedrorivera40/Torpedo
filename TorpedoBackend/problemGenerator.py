@@ -19,7 +19,7 @@ def build_solution_path(problem):
 
 
 # Obtain nodes from graph excel sheet.
-nodes = GraphInput().sheetImport("Agent/Graph.xlsx")
+nodes = GraphInput().mapImport("Agent/PR_Graph.xlsx")
 
 # Creating graph dictionary to be bounded to its corresponding problem.
 # Note this collection is necessary for the Dijkstra's algorithm implementation.
@@ -31,16 +31,18 @@ for node_start in nodes:
         graph[node.get_city()] = node
 
     # Define start and end nodes for test.
-    start_node = node_start  # Arad
-    goal_node = nodes[12]  # Bucharest
+    start_node = node_start  #
+    goal_node = nodes[12]  # Caguas
 
     # Then we use those nodes to define the problem.
     problem = Problem(start_node, goal_node, graph)
     solver = Dijkstra()
     elapsed_time = solver.search(problem)
     route = build_solution_path(problem)
+    GraphInput().createProblem(problems=1, route=route, list_of_nodes=nodes)
+
+
 # should create an XMl With the given heuristic values
-    print("\nFrom node : ", start_node.get_city())
-    print("PATH CHOSEN BY DIJKSTRA: ", route)
-    (GraphRead().heuristicCalculation(list_of_nodes=nodes, route=route))
-    (GraphInput().createProblem(problems=3, route=route, list_of_nodes=nodes))
+   # print("\nFrom node : ", start_node.get_city())
+   # print("PATH CHOSEN BY DIJKSTRA: ", route)
+    #(GraphRead().heuristicCalculation(list_of_nodes=nodes, route=route))
