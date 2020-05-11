@@ -22,6 +22,7 @@ class Node:
         :type heuristic_value: Float
         """
         self.previous = None
+        self.next = None
         self.time_from_start = math.inf
         self.city = city
         self.edges = edges
@@ -56,6 +57,25 @@ class Node:
         :type heuristic_value: float
         """
         return self.heuristic_value
+
+    def get_next(self):
+        """
+        Private method to return next Node
+
+        :param self:
+        :returns next:
+        :type Node
+        """
+        return self.next
+
+    def set_next(self, next):
+        """
+        Private method to set next Node
+
+        :param next:
+        :return: None
+        """
+        self.next = next
 
     def get_previous(self):
         """

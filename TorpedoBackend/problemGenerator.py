@@ -32,7 +32,7 @@ for node_start in nodes:
 
     # Define start and end nodes for test.
     start_node = node_start  #
-    goal_node = nodes[12]  # Caguas
+    goal_node = nodes[49]  # Mayagüez
 
     # Then we use those nodes to define the problem.
     problem = Problem(start_node, goal_node, graph)
