@@ -30,8 +30,8 @@ for node in nodes:
 # goal_node = nodes[12]  # Bucharest
 
 # Puerto Rico start and end nodes...
-start_node = nodes[64]  # San Juan
-goal_node = nodes[49]  # Mayagüez
+start_node = nodes[49]  # Mayagüez
+goal_node = nodes[12]  # Caguas
 
 # Then we use those nodes to define the problem.
 
@@ -41,7 +41,7 @@ problem = Problem(start_node, goal_node, graph)
 
 linear_schedule = Schedules(50, .00005).get_linear_schedule()
 
-kirkpatrick_schedule = Schedules(100, 0.00005).get_kirkpatrick_schedule()
+kirkpatrick_schedule = Schedules(1000, 0.00005).get_kirkpatrick_schedule()
 
 # We initialize simulated annealing.
 

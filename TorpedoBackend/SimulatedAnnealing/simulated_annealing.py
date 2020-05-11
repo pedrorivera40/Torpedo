@@ -4,6 +4,7 @@ import time
 
 
 class SimulatedAnnealing:
+
     next, T = None, None
     bad_choices = 0  # Counter
 
