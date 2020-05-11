@@ -63,8 +63,7 @@ class AStar:
             for edge in current.get_edges():
                 # Calculate time it would take from start node to successor.
                 successor = edge.get_destination()
-                time_to_successor = current.get_time_from_start() + (edge.get_distance() *
-                                                                     (1 / edge.get_speed_limit())) + edge.get_traffic_delay()
+                time_to_successor = current.get_time_from_start() + (edge.get_distance() / edge.get_speed_limit()) + edge.get_traffic_delay()
 
                 if successor in open_list:
                     # If previous parent was a better candidate, continue.
