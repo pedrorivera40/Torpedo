@@ -50,10 +50,10 @@ class SimulatedAnnealing:
         route = []
         self.curr = self.problem.start
         while (self.curr.get_city() is not self.problem.goal.get_city()) and counter < len(nodes_visited):
-            route.append(self.curr.get_city())
+            route.append(self.curr)
             self.curr = self.curr.get_next()
             counter += 1
-        route.append(self.curr.get_city())
+        route.append(self.curr)
 
         # Print algorithm analysis
         # print('Execution time: %s' % (time_end - time_start, ))

@@ -119,6 +119,9 @@ class Node:
         """
         self.time_from_start = time_from_start
 
+    def __str__(self):
+        return self.get_city()
+
 
 class Edge:
     """
