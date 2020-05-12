@@ -119,6 +119,9 @@ class Node:
         """
         self.time_from_start = time_from_start
 
+    def __repr__(self):
+        return self.get_city()
+
     def __str__(self):
         return self.get_city()
 
@@ -267,6 +270,8 @@ class GraphInput:
         # traverse the first column to store all the nodes, with their city name.
         for i in range(sheet.nrows):
             city_name = str(sheet.cell_value(i, 0))
+            print(city_name)
+            print(sheet.cell_value(i, 1))
             city_heuristic_value = float(sheet.cell_value(i, 1))
             list_of_nodes.append(
                 Node(city=city_name, edges=None, heuristic_value=city_heuristic_value))

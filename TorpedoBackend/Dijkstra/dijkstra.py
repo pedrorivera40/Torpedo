@@ -55,7 +55,7 @@ class Dijkstra:
 
                 target = edge.get_destination()
                 time_to_target = shortest_times[min_node.get_city(
-                )] + (edge.get_distance() * (1 / edge.get_speed_limit())) + edge.get_traffic_delay()
+                )] + (edge.get_distance() / edge.get_speed_limit()) + edge.get_traffic_delay()
 
                 # If we found a better path, then update it's distance and previous.
                 if target.get_city() not in shortest_times or time_to_target < shortest_times[target.get_city()]:
