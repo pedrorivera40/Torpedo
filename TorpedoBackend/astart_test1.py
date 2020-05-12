@@ -68,8 +68,14 @@ print("ROUTE TIME FOR A*: ", route_time)
 print("ELAPSED TIME FOR A*: ", elapsed_time)
 print("PATH CHOSEN BY A*: ", route)
 
+str_route = []
+
+for node in route:
+    str_route.append(node.get_city())
+
 excel_export = ExcelExport('test_results.xls')
 excel_export.add_sheet('a_star')
-excel_export.add_headers(['Execution Time', 'Route'])
-excel_export.add_values([elapsed_time, route])
+excel_export.select_sheet('a_star')
+excel_export.add_headers(['Execution Time', 'Route', 'Traveling Time'])
+excel_export.add_values([elapsed_time, str_route, route_time])
 excel_export.save()
