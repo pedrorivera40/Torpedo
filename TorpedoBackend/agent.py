@@ -43,6 +43,12 @@ def simulated_annealing():
        print("\nROUTE TIME FOR SIMULATED ANNEALING: ", route_time)
        print('ELAPSED TIME FOR SIMULATED ANNEALING: '+ str(results['time']))
        print('PATH CHOSEN BY SIMULATED ANNEALING: %s' % (results['route'], ))
+       
+       excel_export = ExcelExport('test_results.xlsx')
+       excel_export.add_sheet('SIMULATED ANNEALING')
+       excel_export.select_sheet('SIMULATED ANNEALING')
+       excel_export.add_values([route_time,results['time'],str(results['route'])])
+       excel_export.save()
        return results
 
 def a_star():
@@ -65,6 +71,11 @@ def a_star():
         print("\nROUTE TIME FOR A*: ", route_time)
         print("ELAPSED TIME FOR A*: ", elapsed_time)
         print("PATH CHOSEN BY A*: ", route)
+        excel_export = ExcelExport('test_results.xlsx')
+        excel_export.add_sheet('A_STAR')
+        excel_export.select_sheet('A_STAR')
+        excel_export.add_values([route_time,elapsed_time,str(route)])
+        excel_export.save()
 
 def dijkstra():
     solver = Dijkstra()
@@ -85,6 +96,11 @@ def dijkstra():
     print("\nROUTE TIME FOR DIJKSTRA: ", route_time)
     print("ELAPSED TIME FOR DIJSKTRA: ", elapsed_time)
     print("PATH CHOSEN BY DIJKSTRA: ", route)
+    excel_export = ExcelExport('test_results.xlsx')
+    excel_export.add_sheet('DIJKSTRA')
+    excel_export.select_sheet('DIJKSTRA')
+    excel_export.add_values([route_time,elapsed_time,str(route)])
+    excel_export.save()
 
 
 class Agent:
@@ -110,32 +126,7 @@ class Agent:
 
     def __init__(self, problem, list_of_nodes):
         print("Agent created")
-        # a_star_solver = AStar()
-        # elapsed_time = a_star_solver.search(problem=problem)
-        # route = build_solution_path(problem=problem)
-
-        # # print("ELAPSED TIME FOR A*: ", elapsed_time)
-        # #print("PATH CHOSEN BY A*: ", route)
-
-        # linear_schedule = Schedules(50, .00005).get_linear_schedule()
-
-        # kirkpatrick_schedule = Schedules(
-        #     10, 0.00005).get_kirkpatrick_schedule()
-
-        # # We initialize simulated annealing.
-
-        # simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
-        # sa_results = simulated_annealing.start()
-
-        # simulated_annealing1 = SimulatedAnnealing(problem, linear_schedule)
-        # sa_results1 = simulated_annealing1.start()
-
-        # print(str(GraphRead().heuristicCalculation(
-        #     route=sa_results['route'], list_of_nodes=list_of_nodes)))
-
-        # GraphRead().heuristicCalculation(route,list_of_nodes)
-      #  print('The difference between performance time is: ')
-       # print((sa_results['time'] - elapsed_time))
+        
 
    
 #read from graph and create list of nodes to assign hv to 
@@ -146,7 +137,7 @@ heuristics =[]
 for node in nodes:
      # Define start and end nodes for test.
     start_node = node  #Each node
-    goal_node = nodes[10]  # Baya
+    goal_node = nodes[GOAL]  # Baya
     # Then we use those nodes to define the problem.
    
     #Creating graph dictionary to be bounded to its corresponding problem.
@@ -174,10 +165,10 @@ for node in nodes:
     heuristics.append(GraphRead().heuristicCalculation(route =route, list_of_nodes=nodes))
 
 #save into xlsx file 
-# excel_export = ExcelExport('Agent/PR_Graph.xlsx')
-# excel_export.select_sheet('1')
-# excel_export.add_hv_values(heuristics)
-# excel_export.save()
+excel_export = ExcelExport('Agent/PR_Graph.xlsx')
+excel_export.select_sheet('1')
+excel_export.add_hv_values(heuristics)
+excel_export.save()
 
 #create new list of nodes with heuristic values 
 
@@ -200,7 +191,7 @@ a_star()
 simulated_annealing()
 
 
-for i in range (0,4):
+for i in range (0,5):
     nodes = GraphInput().random_traffic_import('Agent/PR_Graph.xlsx')
     graph = {}
     for node in nodes:
