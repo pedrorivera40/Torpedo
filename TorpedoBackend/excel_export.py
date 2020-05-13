@@ -34,7 +34,8 @@ class ExcelExport:
             self.sheet = self.workbook.add_sheet(name,cell_overwrite_ok=True)
             self.curr_row = 1
         except Exception:
-            print('ERROR: The sheet \'%s\' already exists. Change the name of use select_sheet().' % (name, ))
+            pass
+            #print('ERROR: The sheet \'%s\' already exists. Change the name of use select_sheet().' % (name, ))
 
     def add_headers(self, headers):
         """
@@ -43,7 +44,8 @@ class ExcelExport:
         :return: None
         """
         if self.sheet is None:
-            print('ERROR: Cannot add headers. No sheet selected. Use add_sheet() or select_sheet().')
+            pass
+            #print('ERROR: Cannot add headers. No sheet selected. Use add_sheet() or select_sheet().')
         else:
             for i in range(len(headers)):
                 self.sheet.write(0, i, headers[i])
@@ -56,8 +58,10 @@ class ExcelExport:
         :param values: list
         :return: None
         """
+        self.curr_row = len(self.sheet.get_rows())
         if self.sheet is None:
-            print('ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
+            pass
+            #print('ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
         else:
             for i in range(len(values)):
                 self.sheet.write(self.curr_row, i, values[i])
@@ -71,12 +75,11 @@ class ExcelExport:
         :return: None
         """
         if self.sheet is None:
-            print('ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
+            pass
+            #print('ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
         else:
             for i in range(0,len(values)-1):
                 self.sheet.write(i, 1, values[i])
-            
-
 
     def get_sheet(self):
         """
@@ -98,7 +101,8 @@ class ExcelExport:
             self.sheet = self.workbook.get_sheet(name)
             self.curr_row = len(self.sheet.get_rows())
         except Exception:
-            print('ERROR: The sheet %s does not exist. Use add_sheet().' % (name, ))
+            pass
+            #print('ERROR: The sheet %s does not exist. Use add_sheet().' % (name, ))
 
     def save(self):
         """

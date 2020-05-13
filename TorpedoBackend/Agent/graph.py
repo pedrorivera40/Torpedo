@@ -503,24 +503,26 @@ class GraphRead:
         ave_velocity = 0
         speed_limits = 0
         traffic_delay = 0.0
+        heuristic_value = 0
         for i in range(0, (len(route)-1)):
-            distance += float(self.distanceBetween(
+            distance = float(self.distanceBetween(
                 start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
-            speed_limits += int(self.speed_limit(
+            speed_limits = int(self.speed_limit(
                 start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
+            heuristic_value += distance/speed_limits
             traffic_delay += float(self.traffic_delay(
-                start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
-        try:
-            ave_velocity = (speed_limits/(len(route) - 1))
-        except:
-            ave_velocity = 0
+                start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))  # TODO: Are we using this?
+        # try:
+        #     ave_velocity = (speed_limits/(len(route) - 1))
+        # except:
+        #     ave_velocity = 0
 
         #print(" \ndistance: "+str(distance)+" \nave_speed_limit: " +
         #str(ave_velocity)+"\ntraffic_delay: "+str(traffic_delay))
-        try:
-            heuristic_value = (distance/ave_velocity)
-        except:
-            heuristic_value = 0
+        # try:
+        #     heuristic_value = (distance/ave_velocity)
+        # except:
+        #     heuristic_value = 0
         #print("\nHEURISTIC VALUE CALCULATED FOR " +
               #str(route[0])+": "+str(heuristic_value))
         return heuristic_value

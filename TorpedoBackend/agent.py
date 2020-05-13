@@ -24,7 +24,7 @@ def build_solution_path(problem):
 def simulated_annealing():
     # We select a Temperature cooling schedule.
     linear_schedule = Schedules(50, .00005).get_linear_schedule()
-    kirkpatrick_schedule = Schedules(100000, 0.00005).get_kirkpatrick_schedule()
+    kirkpatrick_schedule = Schedules(10, 0.00005).get_kirkpatrick_schedule()
     # We initialize simulated annealing.
     simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
     # Start.
@@ -188,7 +188,9 @@ while ASKING:
                     if edge.get_destination().get_city() == next_node.get_city():
                         route_time += edge.get_distance() / edge.get_speed_limit() + edge.get_traffic_delay()
                         break
-                    
+
+            if route[0].get_city() == 'Ceiba' or route[0].get_city() == 'Naguabo':
+                 print()
             heuristics.append(GraphRead().heuristicCalculation(route =route, list_of_nodes=nodes))
 
         #save into xlsx file 
