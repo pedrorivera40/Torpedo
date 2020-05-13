@@ -1,5 +1,5 @@
 import xlrd
-from Agent.GraphRead import heuristicCalculation as route_time_calculation
+from Agent.graph import GraphRead
 from Agent.graph import GraphInput, GraphRead
 from Agent.problem import Problem
 from AStar.astar import AStar
@@ -45,7 +45,7 @@ def simulated_annealing():
     excel_export.add_headers(['Travel Time', 'Execution Time', 'Route'])
 
     # Calculate time from start to goal.
-    route_time = route_time_calculation(results['route'])
+    route_time = GraphRead().heuristicCalculation(results['route'])
 
     # Display results.
     print("\nROUTE TIME FOR SIMULATED ANNEALING: ", route_time)
@@ -81,7 +81,7 @@ def a_star():
     excel_export.add_headers(['Travel Time', 'Execution Time', 'Route'])
 
     # Calculate time from start to goal.
-    route_time = route_time_calculation(route)
+    route_time = GraphRead().heuristicCalculation(route)
 
     # Display results.
     print("\nROUTE TIME FOR A*: ", route_time)
@@ -106,7 +106,7 @@ def dijkstra():
     excel_export.select_sheet('DIJKSTRA')
     excel_export.add_headers(['Travel Time', 'Execution Time', 'Route'])
 
-    route_time = route_time_calculation(route)
+    route_time = GraphRead().heuristicCalculation(route)
 
     # Display results.
     print("\nROUTE TIME FOR DIJKSTRA: ", route_time)
@@ -172,7 +172,7 @@ while True:
 
         # Calculate the route time and save it as the new heuristics value.
         route = build_solution_path(problem)
-        route_time = route_time_calculation(route)
+        route_time = GraphRead().heuristicCalculation(route)
         heuristics.append(GraphRead().heuristicCalculation(route))
 
     # Save into xlsx file
