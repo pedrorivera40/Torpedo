@@ -22,74 +22,75 @@ def build_solution_path(problem):
     return result
 
 def simulated_annealing():
-           # We select a Temperature cooling schedule.
-       linear_schedule = Schedules(50, .00005).get_linear_schedule()
-       kirkpatrick_schedule = Schedules(100000, 0.00005).get_kirkpatrick_schedule()
-       # We initialize simulated annealing.
-       simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
-       # Start.
-       results = simulated_annealing.start()
-       #print('nodes visited: %s' % (results['nodes_visited'], ))
-       route_time = 0
-       for i in range(0, len(results['route']) - 1):
-           # Define two nodes for calculating time between them.
-           current_node = results['route'][i]
-           next_node = results['route'][i + 1]
-           # Find the adjacency between current and next.
-           for edge in current_node.get_edges():
-               if edge.get_destination().get_city() == next_node.get_city():
-                   route_time += edge.get_distance() / edge.get_speed_limit() + edge.get_traffic_delay()
-                   break
+    # We select a Temperature cooling schedule.
+    linear_schedule = Schedules(50, .00005).get_linear_schedule()
+    kirkpatrick_schedule = Schedules(100000, 0.00005).get_kirkpatrick_schedule()
+    # We initialize simulated annealing.
+    simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
+    # Start.
+    results = simulated_annealing.start()
+    #print('nodes visited: %s' % (results['nodes_visited'], ))
+    route_time = 0
+
+    excel_export = ExcelExport('test_results.xlsx')
+    excel_export.add_sheet('SIMULATED ANNEALING')
+    excel_export.add_headers(['Travel Time', 'Execution Time', 'Route'])
+    for i in range(0, len(results['route']) - 1):
+        # Define two nodes for calculating time between them.
+        current_node = results['route'][i]
+        next_node = results['route'][i + 1]
+        # Find the adjacency between current and next.
+        for edge in current_node.get_edges():
+            if edge.get_destination().get_city() == next_node.get_city():
+                route_time += edge.get_distance() / edge.get_speed_limit() + edge.get_traffic_delay()
+                break
         
-        # print("\nROUTE TIME FOR SIMULATED ANNEALING: ", route_time)
-        # print('ELAPSED TIME FOR SIMULATED ANNEALING: '+ str(results['time']))
-        # print('PATH CHOSEN BY SIMULATED ANNEALING: %s' % (results['route'], ))
-        #print("GOAL IS "+str(results['route'][len(route)]))
-       print("\nROUTE TIME FOR SIMULATED ANNEALING: ", route_time)
-       print('ELAPSED TIME FOR SIMULATED ANNEALING: '+ str(results['time']))
-       print('PATH CHOSEN BY SIMULATED ANNEALING: %s' % (results['route'], ))
-       print("GOAL IS "+str(results['route'][len(results['route'])-1]))
+    # print("\nROUTE TIME FOR SIMULATED ANNEALING: ", route_time)
+    # print('ELAPSED TIME FOR SIMULATED ANNEALING: '+ str(results['time']))
+    # print('PATH CHOSEN BY SIMULATED ANNEALING: %s' % (results['route'], ))
+    #print("GOAL IS "+str(results['route'][len(route)]))
+    print("\nROUTE TIME FOR SIMULATED ANNEALING: ", route_time)
+    print('ELAPSED TIME FOR SIMULATED ANNEALING: '+ str(results['time']))
+    print('PATH CHOSEN BY SIMULATED ANNEALING: %s' % (results['route'], ))
+    print("GOAL IS "+str(results['route'][len(results['route'])-1]))
        
-       if str(results['route'][len(results['route'])-1]) != problem.get_goal().get_city():
-            excel_export = ExcelExport('test_results.xlsx')
-            excel_export.add_sheet('SIMULATED ANNEALING')
-            excel_export.select_sheet('SIMULATED ANNEALING')
-            excel_export.add_values(['FAILED','FAILED'])
-            excel_export.save()
-            return results  
-        
-       excel_export = ExcelExport('test_results.xlsx')
-       excel_export.add_sheet('SIMULATED ANNEALING')
-       excel_export.select_sheet('SIMULATED ANNEALING')
-       excel_export.add_values([route_time,results['time'],str(results['route'])])
-       excel_export.save()
-       return results
+    if str(results['route'][len(results['route'])-1]) != problem.get_goal().get_city():
+        excel_export.select_sheet('SIMULATED ANNEALING')
+        excel_export.add_values(['FAILED','FAILED'])
+        excel_export.save()
+        return results
+
+    excel_export.select_sheet('SIMULATED ANNEALING')
+    excel_export.add_values([route_time,results['time'],str(results['route'])])
+    excel_export.save()
+    return results
 
 def a_star():
-        solver = AStar()
-        elapsed_time = solver.search(problem)
-        route = build_solution_path(problem)
+    solver = AStar()
+    elapsed_time = solver.search(problem)
+    route = build_solution_path(problem)
 
-        route_time = 0
-        for i in range(0, len(route) - 1):
-            # Define two nodes for calculating time between them.
-            current_node = route[i]
-            next_node = route[i + 1]
+    route_time = 0
+    excel_export = ExcelExport('test_results.xlsx')
+    excel_export.add_sheet('A_STAR')
+    excel_export.select_sheet('A_STAR')
+    excel_export.add_headers(['Travel Time', 'Execution Time', 'Route'])
+    for i in range(0, len(route) - 1):
+        # Define two nodes for calculating time between them.
+        current_node = route[i]
+        next_node = route[i + 1]
 
-            # Find the adjacency between current and next.
-            for edge in current_node.get_edges():
-                if edge.get_destination().get_city() == next_node.get_city():
-                    route_time += edge.get_distance() / edge.get_speed_limit() + edge.get_traffic_delay()
-                    break
-                
-        print("\nROUTE TIME FOR A*: ", route_time)
-        print("ELAPSED TIME FOR A*: ", elapsed_time)
-        print("PATH CHOSEN BY A*: ", route)
-        excel_export = ExcelExport('test_results.xlsx')
-        excel_export.add_sheet('A_STAR')
-        excel_export.select_sheet('A_STAR')
-        excel_export.add_values([route_time,elapsed_time,str(route)])
-        excel_export.save()
+        # Find the adjacency between current and next.
+        for edge in current_node.get_edges():
+            if edge.get_destination().get_city() == next_node.get_city():
+                route_time += edge.get_distance() / edge.get_speed_limit() + edge.get_traffic_delay()
+                break
+
+    print("\nROUTE TIME FOR A*: ", route_time)
+    print("ELAPSED TIME FOR A*: ", elapsed_time)
+    print("PATH CHOSEN BY A*: ", route)
+    excel_export.add_values([route_time,elapsed_time,str(route)])
+    excel_export.save()
 
 def dijkstra():
     solver = Dijkstra()
@@ -97,6 +98,11 @@ def dijkstra():
     route = build_solution_path(problem)
 
     route_time = 0
+
+    excel_export = ExcelExport('test_results.xlsx')
+    excel_export.add_sheet('DIJKSTRA')
+    excel_export.select_sheet('DIJKSTRA')
+    excel_export.add_headers(['Travel Time', 'Execution Time', 'Route'])
     for i in range(0, len(route) - 1):
         # Define two nodes for calculating time between them.
         current_node = route[i]
@@ -110,9 +116,6 @@ def dijkstra():
     print("\nROUTE TIME FOR DIJKSTRA: ", route_time)
     print("ELAPSED TIME FOR DIJSKTRA: ", elapsed_time)
     print("PATH CHOSEN BY DIJKSTRA: ", route)
-    excel_export = ExcelExport('test_results.xlsx')
-    excel_export.add_sheet('DIJKSTRA')
-    excel_export.select_sheet('DIJKSTRA')
     excel_export.add_values([route_time,elapsed_time,str(route)])
     excel_export.save()
 
