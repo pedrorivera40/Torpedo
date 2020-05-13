@@ -130,82 +130,93 @@ class Agent:
 
    
 #read from graph and create list of nodes to assign hv to 
-nodes = GraphInput().sheetImport("Agent/PR_Graph.xlsx")
+ASKING =True
+while ASKING:
+        start = input("Input start node: ")
+        if start.isdigit():
+            START = start
+            
+            goal = input("Input goal node: ")
+            if goal.isdigit():
+                GOAL = goal
 
-# for each node, calculate the fastest route to the goal node 
-heuristics =[]
-for node in nodes:
-     # Define start and end nodes for test.
-    start_node = node  #Each node
-    goal_node = nodes[GOAL]  # Baya
-    # Then we use those nodes to define the problem.
-   
-    #Creating graph dictionary to be bounded to its corresponding problem.
-    # Note this collection is necessary for the Dijkstra's algorithm implementation.
-    graph = {}
-    for node in nodes:
-        graph[node.get_city()] = node
-        
-    problem = Problem(start=start_node, goal= goal_node,graph= graph)
-    solver = Dijkstra()
-    elapsed_time = solver.search(problem)
-    route = build_solution_path(problem)
-    
-    route_time = 0
-    for i in range(0, len(route) - 1):
-        # Define two nodes for calculating time between them.
-        current_node = route[i]
-        next_node = route[i + 1]
-        # Find the adjacency between current and next.
-        for edge in current_node.get_edges():
-            if edge.get_destination().get_city() == next_node.get_city():
-                route_time += edge.get_distance() / edge.get_speed_limit() + edge.get_traffic_delay()
-                break
-   
-    heuristics.append(GraphRead().heuristicCalculation(route =route, list_of_nodes=nodes))
+        nodes = GraphInput().sheetImport("Agent/PR_Graph.xlsx")
 
-#save into xlsx file 
-excel_export = ExcelExport('Agent/PR_Graph.xlsx')
-excel_export.select_sheet('1')
-excel_export.add_hv_values(heuristics)
-excel_export.save()
+        # for each node, calculate the fastest route to the goal node 
+        heuristics =[]
+        for node in nodes:
+             # Define start and end nodes for test.
+            start_node = node  #Each node
+            goal_node = nodes[int(GOAL)]  # Baya
+            # Then we use those nodes to define the problem.
 
-#create new list of nodes with heuristic values 
+            #Creating graph dictionary to be bounded to its corresponding problem.
+            # Note this collection is necessary for the Dijkstra's algorithm implementation.
+            graph = {}
+            for node in nodes:
+                graph[node.get_city()] = node
 
-nodes = GraphInput().sheetImport("Agent/PR_Graph.xlsx")
-graph = {}
-for node in nodes:
-    graph[node.get_city()] = node
-    
-# Puerto Rico start and end nodes...
-start_node = nodes[START]  # Mayagüez
-goal_node = nodes[GOAL]  # Caguas
+            problem = Problem(start=start_node, goal= goal_node,graph= graph)
+            solver = Dijkstra()
+            elapsed_time = solver.search(problem)
+            route = build_solution_path(problem)
 
-# Then we use those nodes to define the problem.
-problem = Problem(start_node, goal_node, graph)
+            route_time = 0
+            for i in range(0, len(route) - 1):
+                # Define two nodes for calculating time between them.
+                current_node = route[i]
+                next_node = route[i + 1]
+                # Find the adjacency between current and next.
+                for edge in current_node.get_edges():
+                    if edge.get_destination().get_city() == next_node.get_city():
+                        route_time += edge.get_distance() / edge.get_speed_limit() + edge.get_traffic_delay()
+                        break
+                    
+            heuristics.append(GraphRead().heuristicCalculation(route =route, list_of_nodes=nodes))
 
-dijkstra()
+        #save into xlsx file 
+        excel_export = ExcelExport('Agent/PR_Graph.xlsx')
+        excel_export.select_sheet('1')
+        excel_export.add_hv_values(heuristics)
+        excel_export.save()
 
-a_star()
+        #create new list of nodes with heuristic values 
 
-simulated_annealing()
+        nodes = GraphInput().sheetImport("Agent/PR_Graph.xlsx")
+        graph = {}
+        for node in nodes:
+            graph[node.get_city()] = node
+
+        # Puerto Rico start and end nodes...
+        start_node = nodes[int(START)]  # Mayagüez
+        goal_node = nodes[int(GOAL)]  # Caguas
+
+        # Then we use those nodes to define the problem.
+        problem = Problem(start_node, goal_node, graph)
+
+        dijkstra()
+
+        a_star()
+
+        simulated_annealing()
 
 
-for i in range (0,5):
-    nodes = GraphInput().random_traffic_import('Agent/PR_Graph.xlsx')
-    graph = {}
-    for node in nodes:
-        graph[node.get_city()] = node
-    
-# Puerto Rico start and end nodes...
-    start_node = nodes[START]  # Mayagüez
-    goal_node = nodes[GOAL]  # Caguas
+        for i in range (0,5):
+            nodes = GraphInput().random_traffic_import('Agent/PR_Graph.xlsx')
+            graph = {}
+            for node in nodes:
+                graph[node.get_city()] = node
 
-# Then we use those nodes to define the problem.
-    problem = Problem(start_node, goal_node, graph)
-    
-    dijkstra()
+        # Puerto Rico start and end nodes...
+            start_node = nodes[int(START)]  # Mayagüez
+            goal_node = nodes[int(GOAL)]  # Caguas
 
-    a_star()
+        # Then we use those nodes to define the problem.
+            problem = Problem(start_node, goal_node, graph)
 
-    simulated_annealing()
+            dijkstra()
+
+            a_star()
+
+            simulated_annealing()
+            ASKING =True
