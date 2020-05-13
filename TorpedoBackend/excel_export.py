@@ -31,7 +31,7 @@ class ExcelExport:
         :return: None
         """
         try:
-            self.sheet = self.workbook.add_sheet(name)
+            self.sheet = self.workbook.add_sheet(name,cell_overwrite_ok=True)
             self.curr_row = 1
         except Exception:
             print('ERROR: The sheet \'%s\' already exists. Change the name of use select_sheet().' % (name, ))
@@ -61,6 +61,21 @@ class ExcelExport:
             for i in range(len(values)):
                 self.sheet.write(self.curr_row, i, values[i])
             self.curr_row += 1
+
+    def add_hv_values(self, values):
+        """
+        The values to add to the Excel sheet. Every time this function is called, it will automatically write the values
+        in a new row. Must call save() in order for the changes to take effect.
+        :param values: list
+        :return: None
+        """
+        if self.sheet is None:
+            print('ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
+        else:
+            for i in range(0,len(values)-1):
+                self.sheet.write(i, 1, values[i])
+            
+
 
     def get_sheet(self):
         """

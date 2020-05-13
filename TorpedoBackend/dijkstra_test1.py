@@ -37,8 +37,8 @@ for node in nodes:
 # goal_node = nodes[12]  # Bucharest
 
 # Puerto Rico start and end nodes...
-start_node = nodes[49]  # Mayagüez
-goal_node = nodes[12]  # Caguas
+start_node = nodes[1]  # Mayagüez
+goal_node = nodes[10]  # Caguas
 
 # Then we use those nodes to define the problem.
 problem = Problem(start_node, goal_node, graph)
