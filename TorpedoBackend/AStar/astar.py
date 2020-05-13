@@ -1,6 +1,6 @@
 import math
 from Agent.graph import Node, Edge
-from time import time
+import time
 
 
 class AStar:
@@ -30,7 +30,7 @@ class AStar:
         """
 
         # Take the start time for search execution.
-        start_time = time()
+        start_time = time.time()
 
         start_node = problem.start
         start_node.set_time_from_start(0)
@@ -63,8 +63,7 @@ class AStar:
             for edge in current.get_edges():
                 # Calculate time it would take from start node to successor.
                 successor = edge.get_destination()
-                time_to_successor = current.get_time_from_start() + (edge.get_distance() *
-                                                                     (1 / edge.get_speed_limit())) + edge.get_traffic_delay()
+                time_to_successor = current.get_time_from_start() + (edge.get_distance() / edge.get_speed_limit()) + edge.get_traffic_delay()
 
                 if successor in open_list:
                     # If previous parent was a better candidate, continue.
@@ -92,4 +91,4 @@ class AStar:
             closed_list.append(current)
 
         # Return execution time.
-        return time() - start_time
+        return time.time() - start_time

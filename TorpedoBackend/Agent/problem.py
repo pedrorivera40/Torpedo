@@ -15,6 +15,11 @@ class Problem:
         self.goal = goal
         self.graph = graph
 
+    def set_start(self, start):
+        """
+        """
+        self.start = start
+
     def get_start(self):
         """
         Private method to return start Node
