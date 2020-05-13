@@ -46,6 +46,7 @@ class Dijkstra:
 
             for node in graph:
                 if shortest_times[graph[node].get_city()] < min_time:
+                    min_time = shortest_times[graph[node].get_city()]
                     min_node = graph[node]
 
             graph.pop(min_node.get_city(), 0)

@@ -194,6 +194,71 @@ class GraphInput:
     Graph Input class, with methods for inputing graph data to our agent
     """
 
+    def random_traffic_import(self,path):
+        list_of_nodes = []
+        """
+        Import graph data through an xlsx or xls file named "Graph.xlsx" or "Graph.xls" in the folder named 'AGENT'
+        """
+        # To open Workbook
+        wb = xlrd.open_workbook(path)
+        sheet = wb.sheet_by_index(0)
+
+        # traverse the first column to store all the nodes, with their city name.
+        for i in range(sheet.nrows):
+            city_name = str(sheet.cell_value(i, 0))
+            #print(city_name)
+            #print(sheet.cell_value(i, 1))
+            city_heuristic_value = float(sheet.cell_value(i, 1))
+            list_of_nodes.append(
+                Node(city=city_name, edges=None, heuristic_value=city_heuristic_value))
+
+        # After making the list of nodes, we create the edge list for each Node :
+        # traverse the first column
+        for i in range(sheet.nrows):
+            nodeEdges = []
+            # go through each row
+            for j in range(2, sheet.ncols):
+                # Check each cell
+                cell = sheet.cell_value(i, j)
+                # Check if cell is empty, this means the end of a edge list
+                if cell is not "":
+                    # check if cell contains an edge
+                    if cell[0] == '(':
+                        # store the tuple information from the cell
+                        res = []
+                        temp = []
+                        for token in cell.split(", "):
+                            value = token.replace("(", "").replace(")", "")
+                            temp.append(value)
+                            if ")" in token:
+                                res.append(tuple(temp))
+                                temp = []
+
+                        # store cell information
+                        destination = None
+                        distance = float(res[0][1])
+                        speed_limit = int(res[0][2])
+                        traffic_delay = float(float(res[0][3])+random.uniform(0.00, 0.15))
+                        # reference node from list_of_nodes
+                        for node in list_of_nodes:
+
+                            if node.city == str(res[0][0]):
+                                destination = node
+                                break
+                        # no Node was found , could be an error in the Excel file
+                        if destination is not None:
+                            nodeEdges.append(Edge(destination=destination, distance=distance,
+                                                  speed_limit=speed_limit, traffic_delay=traffic_delay))
+                            list_of_nodes[i].edges = nodeEdges
+                        else:
+                            return print("Node not found "+str(res[0][0]))
+
+                else:
+                    break
+
+        return list_of_nodes
+    
+    
     def mapImport(self, path):
         list_of_nodes = []
         """
