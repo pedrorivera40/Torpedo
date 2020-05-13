@@ -49,7 +49,8 @@ class SimulatedAnnealing:
         counter = 0  # This counter is used to avoid infinite loops.
         route = []
         self.curr = self.problem.start
-        while (self.curr.get_city() is not self.problem.goal.get_city()) and counter < len(nodes_visited):
+        while (self.curr.get_next() is not None) and \
+                (self.curr.get_city() is not self.problem.goal.get_city()) and counter < len(nodes_visited):
             route.append(self.curr)
             self.curr = self.curr.get_next()
             counter += 1

@@ -24,7 +24,7 @@ def build_solution_path(problem):
 def simulated_annealing():
            # We select a Temperature cooling schedule.
        linear_schedule = Schedules(50, .00005).get_linear_schedule()
-       kirkpatrick_schedule = Schedules(1000, 0.00005).get_kirkpatrick_schedule()
+       kirkpatrick_schedule = Schedules(100000, 0.00005).get_kirkpatrick_schedule()
        # We initialize simulated annealing.
        simulated_annealing = SimulatedAnnealing(problem, kirkpatrick_schedule)
        # Start.
@@ -40,10 +40,24 @@ def simulated_annealing():
                if edge.get_destination().get_city() == next_node.get_city():
                    route_time += edge.get_distance() / edge.get_speed_limit() + edge.get_traffic_delay()
                    break
+        
+        # print("\nROUTE TIME FOR SIMULATED ANNEALING: ", route_time)
+        # print('ELAPSED TIME FOR SIMULATED ANNEALING: '+ str(results['time']))
+        # print('PATH CHOSEN BY SIMULATED ANNEALING: %s' % (results['route'], ))
+        #print("GOAL IS "+str(results['route'][len(route)]))
        print("\nROUTE TIME FOR SIMULATED ANNEALING: ", route_time)
        print('ELAPSED TIME FOR SIMULATED ANNEALING: '+ str(results['time']))
        print('PATH CHOSEN BY SIMULATED ANNEALING: %s' % (results['route'], ))
+       print("GOAL IS "+str(results['route'][len(results['route'])-1]))
        
+       if str(results['route'][len(results['route'])-1]) != problem.get_goal().get_city():
+            excel_export = ExcelExport('test_results.xlsx')
+            excel_export.add_sheet('SIMULATED ANNEALING')
+            excel_export.select_sheet('SIMULATED ANNEALING')
+            excel_export.add_values(['FAILED','FAILED'])
+            excel_export.save()
+            return results  
+        
        excel_export = ExcelExport('test_results.xlsx')
        excel_export.add_sheet('SIMULATED ANNEALING')
        excel_export.select_sheet('SIMULATED ANNEALING')
