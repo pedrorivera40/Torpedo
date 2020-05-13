@@ -194,7 +194,7 @@ class GraphInput:
     Graph Input class, with methods for inputing graph data to our agent
     """
 
-    def random_traffic_import(self,path):
+    def random_traffic_import(self, path):
         list_of_nodes = []
         """
         Import graph data through an xlsx or xls file named "Graph.xlsx" or "Graph.xls" in the folder named 'AGENT'
@@ -206,7 +206,7 @@ class GraphInput:
         # traverse the first column to store all the nodes, with their city name.
         for i in range(sheet.nrows):
             city_name = str(sheet.cell_value(i, 0))
-            #print(city_name)
+            # print(city_name)
             #print(sheet.cell_value(i, 1))
             city_heuristic_value = float(sheet.cell_value(i, 1))
             list_of_nodes.append(
@@ -238,7 +238,8 @@ class GraphInput:
                         destination = None
                         distance = float(res[0][1])
                         speed_limit = int(res[0][2])
-                        traffic_delay = float(float(res[0][3])+random.uniform(0.00, 0.15))
+                        traffic_delay = float(
+                            float(res[0][3])+random.uniform(0.00, 0.15))
                         # reference node from list_of_nodes
                         for node in list_of_nodes:
 
@@ -257,8 +258,7 @@ class GraphInput:
                     break
 
         return list_of_nodes
-    
-    
+
     def mapImport(self, path):
         list_of_nodes = []
         """
@@ -335,7 +335,7 @@ class GraphInput:
         # traverse the first column to store all the nodes, with their city name.
         for i in range(sheet.nrows):
             city_name = str(sheet.cell_value(i, 0))
-            #print(city_name)
+            # print(city_name)
             #print(sheet.cell_value(i, 1))
             city_heuristic_value = float(sheet.cell_value(i, 1))
             list_of_nodes.append(
@@ -447,13 +447,13 @@ class GraphRead:
             if node.get_city() == start_node.get_city():
                 edges = node.get_edges()
                 for edge in edges:
-                    #print(str(edge.get_distance()))
+                    # print(str(edge.get_distance()))
                     if str(edge.get_destination().get_city()) == str(end_node):
                         return edge.get_distance()
                     #print("Not match "+node.get_city())
                    # print(edge.get_destination().get_city())
-                
-                #print("Error in Current "+str(node.get_city()) +
+
+                # print("Error in Current "+str(node.get_city()) +
                   #    " Destination "+str(end_node))
 
                 return 'Error'
@@ -491,38 +491,24 @@ class GraphRead:
                 for edge in edges:
                     if str(edge.get_destination().get_city()) == str(end_node):
                         return edge.get_speed_limit()
-            
 
                 return 'Error'
 
-    def heuristicCalculation(self, route, list_of_nodes):
+    def heuristicCalculation(self, route):
         """
         """
-        #print("Calculating route length for route: "+str(route))
-        distance = 0.00
-        ave_velocity = 0
-        speed_limits = 0
-        traffic_delay = 0.0
-        for i in range(0, (len(route)-1)):
-            distance += float(self.distanceBetween(
-                start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
-            speed_limits += int(self.speed_limit(
-                start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
-            traffic_delay += float(self.traffic_delay(
-                start_node=route[i], end_node=route[i+1], list_of_nodes=list_of_nodes))
-        try:
-            ave_velocity = (speed_limits/(len(route) - 1))
-        except:
-            ave_velocity = 0
 
-        #print(" \ndistance: "+str(distance)+" \nave_speed_limit: " +
-        #str(ave_velocity)+"\ntraffic_delay: "+str(traffic_delay))
-        try:
-            heuristic_value = (distance/ave_velocity)
-        except:
-            heuristic_value = 0
-        #print("\nHEURISTIC VALUE CALCULATED FOR " +
-              #str(route[0])+": "+str(heuristic_value))
-        return heuristic_value
+        route_time = 0
+        for i in range(0, len(route) - 1):
+            # Define two nodes for calculating time between them.
+            current_node = route[i]
+            next_node = route[i + 1]
 
+            # Find the adjacency between current and next.
+            for edge in current_node.get_edges():
+                if edge.get_destination().get_city() == next_node.get_city():
+                    route_time += edge.get_distance() / edge.get_speed_limit() + \
+                        edge.get_traffic_delay()
+                    break
 
+        return route_time
