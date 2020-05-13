@@ -20,7 +20,8 @@ class ExcelExport:
         """
         self.workbook_path = workbook_path
         try:
-            self.workbook = copy(xlrd.open_workbook(workbook_path))  # If workbook exists, create a copy
+            # If workbook exists, create a copy
+            self.workbook = copy(xlrd.open_workbook(workbook_path))
         except FileNotFoundError:
             self.workbook = xlwt.Workbook()  # If the workbook does not exist, create a new one
 
@@ -31,10 +32,12 @@ class ExcelExport:
         :return: None
         """
         try:
-            self.sheet = self.workbook.add_sheet(name,cell_overwrite_ok=True)
+            self.sheet = self.workbook.add_sheet(name, cell_overwrite_ok=True)
             self.curr_row = 1
         except Exception:
-            print('ERROR: The sheet \'%s\' already exists. Change the name of use select_sheet().' % (name, ))
+            pass
+            # print(
+            #     'ERROR: The sheet \'%s\' already exists. Change the name of use select_sheet().' % (name, ))
 
     def add_headers(self, headers):
         """
@@ -43,11 +46,12 @@ class ExcelExport:
         :return: None
         """
         if self.sheet is None:
-            print('ERROR: Cannot add headers. No sheet selected. Use add_sheet() or select_sheet().')
+            pass
+            # print(
+            #     'ERROR: Cannot add headers. No sheet selected. Use add_sheet() or select_sheet().')
         else:
             for i in range(len(headers)):
                 self.sheet.write(0, i, headers[i])
-            self.curr_row += 1
 
     def add_values(self, values):
         """
@@ -56,8 +60,12 @@ class ExcelExport:
         :param values: list
         :return: None
         """
+        self.curr_row = len(self.sheet.get_rows())
+
         if self.sheet is None:
-            print('ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
+            pass
+            # print(
+            #     'ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
         else:
             for i in range(len(values)):
                 self.sheet.write(self.curr_row, i, values[i])
@@ -71,12 +79,12 @@ class ExcelExport:
         :return: None
         """
         if self.sheet is None:
-            print('ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
+            pass
+            # print(
+            #     'ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
         else:
-            for i in range(0,len(values)-1):
+            for i in range(0, len(values)-1):
                 self.sheet.write(i, 1, values[i])
-            
-
 
     def get_sheet(self):
         """
@@ -98,7 +106,8 @@ class ExcelExport:
             self.sheet = self.workbook.get_sheet(name)
             self.curr_row = len(self.sheet.get_rows())
         except Exception:
-            print('ERROR: The sheet %s does not exist. Use add_sheet().' % (name, ))
+            pass
+            # print('ERROR: The sheet %s does not exist. Use add_sheet().' % (name, ))
 
     def save(self):
         """
@@ -110,4 +119,5 @@ class ExcelExport:
             self.workbook.save(self.workbook_path)
             print('Workbook saved!')
         except IndexError:
-            print('ERROR: Could not save workbook. No sheets created. Use add_sheet().')
+            pass
+            # print('ERROR: Could not save workbook. No sheets created. Use add_sheet().')
