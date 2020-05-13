@@ -73,7 +73,7 @@ class ExcelExport:
         if self.sheet is None:
             print('ERROR: Cannot add values. No sheet selected. Use add_sheet() or select_sheet().')
         else:
-            for i in range(0,len(values)-1):
+            for i in range(0,len(values)):
                 self.sheet.write(i, 1, values[i])
             
 
