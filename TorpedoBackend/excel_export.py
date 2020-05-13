@@ -47,6 +47,7 @@ class ExcelExport:
         else:
             for i in range(len(headers)):
                 self.sheet.write(0, i, headers[i])
+            self.curr_row += 1
 
     def add_values(self, values):
         """
