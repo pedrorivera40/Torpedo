@@ -56,11 +56,6 @@ class SimulatedAnnealing:
             counter += 1
         route.append(self.curr)
 
-        # Print algorithm analysis
-        # print('Execution time: %s' % (time_end - time_start, ))
-        # print('Number of bad choices: %s' % (self.bad_choices, ))
-        # print('Nodes visited: %s' % (nodes_visited, ))
-        # print('Route: %s' % (route, ))
         response = {"time": (time_end - time_start), "bad_choices": self.bad_choices,
                     "nodes_visited": nodes_visited, "route": route}
         return response  # Return performance parameters
